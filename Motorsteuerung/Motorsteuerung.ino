@@ -9,18 +9,14 @@ AF_DCMotor M4(4);
 void setup() 
 {
   Serial.begin(9600);
-  
- 
-
-  
+  M1.setSpeed(255);    
+  M2.setSpeed(255);    
+  M3.setSpeed(255);    
+  M4.setSpeed(255);    
 }
+
 void loop() 
 {
-  M1.setSpeed(200);    
-  M2.setSpeed(200);    
-  M3.setSpeed(200);    
-  M4.setSpeed(200);    
-
  Vorne(); 
  delay(2000);
  Hinten();

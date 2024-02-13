@@ -20,49 +20,55 @@ void setup() {
 
 }
 
-void loop() {
-  if (IrReceiver.decode()) {
-     long resultValue = IrReceiver.decodedIRData.decodedRawData;  // Empfangene Daten
+void loop() 
+{
+  if (IrReceiver.decode()) 
+  {
+    long resultValue = IrReceiver.decodedIRData.decodedRawData;  // Empfangene Daten
+    Serial.println(resultValue);
 
-    if (resultValue == 0xb946ff00 || resultValue == 0x1E61) {
-      M1.run(FORWARD);
-      M2.run(FORWARD);
-      M3.run(FORWARD);
-      M4.run(FORWARD);
-      delay(3000);
-    } else if (resultValue == 0xFF906F|| resultValue == 0xEA15FF00) {
-      M1.run(BACKWARD);
-      M2.run(BACKWARD);
-      M3.run(BACKWARD);
-      M4.run(BACKWARD);
-      } else if(resultValue == 0xbb44ff00){
-      M1.run(BACKWARD);
-      M2.run(FORWARD);
-      M3.run(FORWARD);
-      M4.run(BACKWARD);
-      delay(500);
-      M1.run(RELEASE);
-      M2.run(RELEASE);
-      M3.run(RELEASE);
-      M4.run(RELEASE);
-    } else if(resultValue == 0xbc43ff00){
-      M1.run(FORWARD);
-      M2.run(BACKWARD);
-      M3.run(BACKWARD);
-      M4.run(FORWARD);
-      delay(500);
-      M1.run(RELEASE);
-      M2.run(RELEASE);
-      M3.run(RELEASE);
-      M4.run(RELEASE);
-    
-    } else if(resultValue == 0xbf40ff00){
-      M1.run(RELEASE);
-      M2.run(RELEASE);
-      M3.run(RELEASE);
-      M4.run(RELEASE);
+    if (resultValue == 0xb946ff00 || resultValue == 0x1E61) 
+    {
+      Vorne();
+    } 
+    else if (resultValue == 0xFF906F|| resultValue == 0xEA15FF00) 
+    {
+      Hinten();
+    } 
+    else if(resultValue == 0xbf40ff00)
+    {
+      Stop();
     }
 
     IrReceiver.resume(); // Empfang für das nächste Signal aktivieren
   }
 }
+
+
+void Vorne()
+{
+  Serial.println("Vorwärts");
+  M1.run(FORWARD);
+  M2.run(FORWARD);
+  M3.run(BACKWARD);
+  M4.run(BACKWARD);
+}
+ 
+void Hinten()
+{
+  Serial.println("Rückwärts");
+  M1.run(BACKWARD);
+  M2.run(BACKWARD);
+  M3.run(FORWARD);
+  M4.run(FORWARD);
+}
+
+void Stop()
+{
+  Serial.println("Stop");
+  M1.run(RELEASE);
+  M2.run(RELEASE);
+  M3.run(RELEASE);
+  M4.run(RELEASE);
+}
+
